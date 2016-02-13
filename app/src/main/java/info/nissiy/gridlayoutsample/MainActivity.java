@@ -72,8 +72,9 @@ public class MainActivity extends AppCompatActivity
 
     private void loadData(final int page) {
         // Set the Stub for display the ProgressBar
+        final ProgressStub progressStub = new ProgressStub();
         if (page > 1) {
-            adapter.add(new ProgressStub());
+            adapter.add(progressStub);
         }
 
         handler.postDelayed(new Runnable() {
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 // Remove the Stub
                 if (page > 1) {
-                    adapter.remove(adapter.getItemCount() - 1);
+                    adapter.remove(progressStub);
                 }
 
                 if (swipeRefreshLayout.isRefreshing()) {

@@ -24,9 +24,10 @@ public abstract class RecyclerBaseAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemInserted(position);
     }
 
-    public void remove(int position) {
+    public void remove(Object object) {
+        int position = objects.indexOf(object);
         synchronized (lock) {
-            objects.remove(position);
+            objects.remove(object);
         }
         notifyItemRemoved(position);
     }
