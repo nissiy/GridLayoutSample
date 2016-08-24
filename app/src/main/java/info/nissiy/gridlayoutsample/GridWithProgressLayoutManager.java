@@ -10,7 +10,7 @@ public class GridWithProgressLayoutManager extends GridLayoutManager {
                                          final RecyclerBaseAdapter adapter) {
         super(context, spanCount);
 
-        setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        SpanSizeLookup spanSizeLookup = new SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 if (adapter != null
@@ -19,16 +19,9 @@ public class GridWithProgressLayoutManager extends GridLayoutManager {
                 }
                 return 1;
             }
-
-            @Override
-            public int getSpanIndex(int position, int spanCount) {
-                if (adapter != null
-                        && adapter.getItemViewType(position) == RecyclerBaseAdapter.TYPE_PROG) {
-                    return 0;
-                }
-                return position % spanCount;
-            }
-        });
+        };
+        spanSizeLookup.setSpanIndexCacheEnabled(true);
+        setSpanSizeLookup(spanSizeLookup);
     }
 
 }

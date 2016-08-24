@@ -11,8 +11,8 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity
     private PhotoGridAdapter adapter;
     private EndlessScrollListener scrollListener;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.swipe_refresh_layout)
+    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     @BindDimen(R.dimen.unit_margin)
@@ -74,7 +74,12 @@ public class MainActivity extends AppCompatActivity
         // Set the Stub for display the ProgressBar
         final ProgressStub progressStub = new ProgressStub();
         if (page > 1) {
-            adapter.add(progressStub);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.add(progressStub);
+                }
+            });
         }
 
         handler.postDelayed(new Runnable() {

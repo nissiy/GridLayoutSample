@@ -31,8 +31,6 @@ public class PhotoGridAdapter extends RecyclerBaseAdapter {
         RecyclerView.ViewHolder viewHolder;
         if (viewType == TYPE_ITEM) {
             FrameLayout view = (FrameLayout) inflater.inflate(R.layout.photo_layout, parent, false);
-            AppCompatImageView photoImageView = (AppCompatImageView) view.findViewById(R.id.photo_image_view);
-            photoImageView.setLayoutParams(new FrameLayout.LayoutParams(imageSize, imageSize));
             viewHolder = new PhotoLayoutHolder(view);
         } else {
             FrameLayout view = (FrameLayout) inflater.inflate(R.layout.progress_bar_layout, parent, false);
@@ -45,8 +43,8 @@ public class PhotoGridAdapter extends RecyclerBaseAdapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PhotoLayoutHolder) {
             Photo photo = (Photo) objects.get(position);
-            FrameLayout photoLayout = ((PhotoLayoutHolder) holder).photoLayout;
-            AppCompatImageView photoImageView = (AppCompatImageView) photoLayout.findViewById(R.id.photo_image_view);
+            AppCompatImageView photoImageView = ((PhotoLayoutHolder) holder).photoImageView;
+            photoImageView.setLayoutParams(new FrameLayout.LayoutParams(imageSize, imageSize));
             Picasso.with(context).load(photo.drawableResId).into(photoImageView);
         }
     }
@@ -62,11 +60,11 @@ public class PhotoGridAdapter extends RecyclerBaseAdapter {
     }
 
     public final class PhotoLayoutHolder extends RecyclerView.ViewHolder {
-        public final FrameLayout photoLayout;
+        public final AppCompatImageView photoImageView;
 
         public PhotoLayoutHolder(FrameLayout view) {
             super(view);
-            photoLayout = view;
+            photoImageView = (AppCompatImageView) view.findViewById(R.id.photo_image_view);
         }
     }
 
