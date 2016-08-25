@@ -42,7 +42,12 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
             currentPage++;
             loading = true;
             if (onLoadMoreListener != null) {
-                onLoadMoreListener.onLoadMore(currentPage);
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoadMoreListener.onLoadMore(currentPage);
+                    }
+                });
             }
         }
     }
