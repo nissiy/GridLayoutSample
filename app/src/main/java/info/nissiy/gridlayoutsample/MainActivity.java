@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         // Set the Stub for display the ProgressBar
         ProgressStub progressStub = new ProgressStub();
         if (page > 1) {
-            handler.post(() -> adapter.add(progressStub));
+            adapter.add(progressStub);
         }
 
         handler.postDelayed(() -> {
