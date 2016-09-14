@@ -11,32 +11,22 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
-import butterknife.BindDimen;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity
         implements SwipeRefreshLayout.OnRefreshListener, EndlessScrollListener.OnLoadMoreListener {
     private static Handler handler = new Handler();
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Resources res;
     private PhotoGridAdapter adapter;
     private EndlessScrollListener scrollListener;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    @BindDimen(R.dimen.unit_margin)
-    int unitMargin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         res = getResources();
 
         setSupportActionBar(toolbar);
@@ -55,6 +45,7 @@ public class MainActivity extends AppCompatActivity
         scrollListener = new EndlessScrollListener(1, layoutManager);
         scrollListener.setOnLoadMoreListener(this);
 
+        int unitMargin = res.getDimensionPixelSize(R.dimen.unit_margin);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(scrollListener);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, unitMargin));
