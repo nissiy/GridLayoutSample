@@ -63,35 +63,27 @@ public class MainActivity extends AppCompatActivity
 
     private void loadData(final int page) {
         // Set the Stub for display the ProgressBar
-        final ProgressStub progressStub = new ProgressStub();
+        ProgressStub progressStub = new ProgressStub();
         if (page > 1) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.add(progressStub);
-                }
-            });
+            handler.post(() -> adapter.add(progressStub));
         }
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Remove the Stub
-                if (page > 1) {
-                    adapter.remove(progressStub);
-                }
+        handler.postDelayed(() -> {
+            // Remove the Stub
+            if (page > 1) {
+                adapter.remove(progressStub);
+            }
 
-                if (swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
 
-                int startNum = 10 * (page - 1);
-                int endNum = 10 * page - 1;
-                for (; startNum <= endNum; startNum++) {
-                    int suffix = startNum % 8;
-                    int drawableResId = res.getIdentifier("photo" + suffix, "drawable", getPackageName());
-                    adapter.add(new Photo(drawableResId));
-                }
+            int startNum = 10 * (page - 1);
+            int endNum = 10 * page - 1;
+            for (; startNum <= endNum; startNum++) {
+                int suffix = startNum % 8;
+                int drawableResId = res.getIdentifier("photo" + suffix, "drawable", getPackageName());
+                adapter.add(new Photo(drawableResId));
             }
         }, 2000);
     }
